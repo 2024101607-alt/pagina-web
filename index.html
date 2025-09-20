@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Girasoles - Te Amo</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400;500&display=swap"
+        rel="stylesheet"
+    />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(to bottom, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            padding: 20px;
+            position: relative;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            z-index: 20;
+            position: relative;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4rem;
+            color: #3282F6;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+            letter-spacing: 2px;
+        }
+
+        .author {
+            font-style: italic;
+            color: #DB0022;
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            display: block;
+        }
+
+        .message {
+            background: rgba(25, 25, 35, 0.8);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px auto;
+            max-width: 600px;
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.2);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            position: relative;
+        }
+
+        .message h2 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            color: #ffd700;
+            margin-bottom: 20px;
+        }
+
+        .message p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        /* Girasoles animados */
+        .sunflower {
+            position: absolute;
+            z-index: 1;
+            animation: float 8s infinite ease-in-out;
+        }
+
+        .petals {
+            position: relative;
+            width: 100px;
+            height: 100px;
+        }
+
+        /* back row (fila trasera) más grande y detrás */
+        .petals.back {
+            width: 120px;
+            height: 120px;
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            z-index: -1;
+        }
+
+        .petal {
+            position: absolute;
+            width: 30px;
+            height: 50px;
+            background: linear-gradient(to bottom, #ffd700 0%, #ffcc00 100%); /* fila frontal por defecto */
+            border-radius: 50% 50% 50% 50%;
+            top: 50%;
+            left: 50%;
+            margin-top: -25px;
+            margin-left: -15px;
+            transform-origin: center bottom;
+            box-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+        }
+
+        /* Primera fila de pétalos (grande, indices 1-12) */
+        .petals .petal:nth-child(1)  { transform: rotate(0deg)   translateY(-50px) scale(1.2); }
+        .petals .petal:nth-child(2)  { transform: rotate(30deg)  translateY(-50px) scale(1.2); }
+        .petals .petal:nth-child(3)  { transform: rotate(60deg)  translateY(-50px) scale(1.2); }
+        .petals .petal:nth-child(4)  { transform: rotate(90deg)  translateY(-50px) scale(1.2); }
+        .petals .petal:nth-child(5)  { transform: rotate(120deg) translateY(-50px) scale(1.2); }
+        .petals .petal:nth-child(6)  { transform: rotate(150deg) translateY(-50px) scale(1.2); }
+        .petals .petal:nth-child(7)  { transform: rotate(180deg) translateY(-50px) scale(1.2); }
+        .petals .petal:nth-child(8)  { transform: rotate(210deg) translateY(-50px) scale(1.2); }
+        .petals .petal:nth-child(9)  { transform: rotate(240deg) translateY(-50px) scale(1.2); }
+        .petals .petal:nth-child(10) { transform: rotate(270deg) translateY(-50px) scale(1.2); }
+        .petals .petal:nth-child(11) { transform: rotate(300deg) translateY(-50px) scale(1.2); }
+        .petals .petal:nth-child(12) { transform: rotate(330deg) translateY(-50px) scale(1.2); }
+
+        /* Segunda fila de pétalos (más pequeños, indices 13-24) - color distinto */
+        .petals .petal:nth-child(13) { transform: rotate(15deg)  translateY(-35px) scale(0.8); }
+        .petals .petal:nth-child(14) { transform: rotate(45deg)  translateY(-35px) scale(0.8); }
+        .petals .petal:nth-child(15) { transform: rotate(75deg)  translateY(-35px) scale(0.8); }
+        .petals .petal:nth-child(16) { transform: rotate(105deg) translateY(-35px) scale(0.8); }
+        .petals .petal:nth-child(17) { transform: rotate(135deg) translateY(-35px) scale(0.8); }
+        .petals .petal:nth-child(18) { transform: rotate(165deg) translateY(-35px) scale(0.8); }
+        .petals .petal:nth-child(19) { transform: rotate(195deg) translateY(-35px) scale(0.8); }
+        .petals .petal:nth-child(20) { transform: rotate(225deg) translateY(-35px) scale(0.8); }
+        .petals .petal:nth-child(21) { transform: rotate(255deg) translateY(-35px) scale(0.8); }
+        .petals .petal:nth-child(22) { transform: rotate(285deg) translateY(-35px) scale(0.8); }
+        .petals .petal:nth-child(23) { transform: rotate(315deg) translateY(-35px) scale(0.8); }
+        .petals .petal:nth-child(24) { transform: rotate(345deg) translateY(-35px) scale(0.8); }
+
+        /* Aplica color distinto a los pétalos de la fila trasera/pequeña (índices 13-24) */
+        .petals .petal:nth-child(n+13) {
+            background: linear-gradient(to bottom, #ffd98a 0%, #ff8c00 100%);
+            box-shadow: 0 0 6px rgba(255, 180, 80, 0.5);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        /* Posicionamiento de girasoles */
+        .sunflower:nth-child(1) { top: 10%; left: 10%; width: 80px; height: 80px; animation-duration: 12s; }
+        .sunflower:nth-child(2) { top: 20%; right: 15%; width: 60px; height: 60px; animation-duration: 10s; }
+        .sunflower:nth-child(3) { bottom: 30%; left: 15%; width: 70px; height: 70px; animation-duration: 14s; }
+        .sunflower:nth-child(4) { bottom: 20%; right: 10%; width: 65px; height: 65px; animation-duration: 9s; }
+        .sunflower:nth-child(5) { top: 40%; left: 5%; width: 50px; height: 50px; animation-duration: 11s; }
+        .sunflower:nth-child(6) { top: 60%; right: 20%; width: 70px; height: 70px; animation-duration: 13s; }
+        .sunflower:nth-child(7) { bottom: 10%; left: 20%; width: 55px; height: 55px; animation-duration: 15s; }
+
+        /* Efectos de partículas (ahora giran mientras caen) */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .particle {
+            position: absolute;
+            font-size: 1.5rem;
+            animation-name: fall;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+            transform-origin: center;
+            display: inline-block;
+            pointer-events: none;
+            will-change: transform;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0.95;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 3rem; }
+            .message h2 { font-size: 2rem; }
+            .message { padding: 20px; }
+            .sunflower { transform: scale(0.8); }
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 2.5rem; }
+            .message h2 { font-size: 1.8rem; }
+            .message p { font-size: 1rem; }
+            .sunflower { transform: scale(0.6); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Girasoles animados (cada bloque .petals ahora contiene 24 pétalos) -->
+    <div class="sunflower"><div class="petals back">
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+    </div><div class="petals">
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <!-- fila pequeña adicional: completar hasta 24 total -->
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+    </div></div>
+
+    <div class="sunflower"><div class="petals back">
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+    </div><div class="petals">
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+    </div></div>
+
+    <div class="sunflower"><div class="petals back">
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+    </div><div class="petals">
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+    </div></div>
+
+    <div class="sunflower"><div class="petals back">
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+    </div><div class="petals">
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+    </div></div>
+
+    <div class="sunflower"><div class="petals back">
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+    </div><div class="petals">
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+    </div></div>
+
+    <div class="sunflower"><div class="petals back">
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+    </div><div class="petals">
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+    </div></div>
+
+    <!-- Partículas de fondo -->
+    <div class="particles" id="particles"></div>
+
+    <div class="container">
+        <h1>Flores amarillas</h1>
+        <span class="author">TE QUIERE(don ale❤)</span>
+
+        <div class="message">
+            <h2>Mi Niña Soffi 😍</h2>
+            <p>Los girasoles siguen la luz del sol, así como yo sigo la luz de tu amor.</p>
+            <p>Cada uno de estos girasoles representa un motivo por el que te amo.</p>
+        </div>
+    </div>
+
+    <script>
+        // Crear partículas de fondo con girasoles y tulipanes (girando mientras caen)
+        document.addEventListener('DOMContentLoaded', function () {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 40;
+            const flowers = ["🌻", "🌷","❤"]; // girasol y tulipán
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+
+                // Aleatoriamente asignar flor
+                particle.textContent = flowers[Math.floor(Math.random() * flowers.length)];
+
+                // Tamaño aleatorio
+                const size = Math.random() * 20 + 10;
+                particle.style.fontSize = `${size}px`;
+
+                // Posición aleatoria (empezar arriba fuera de pantalla)
+                particle.style.left = `${Math.random() * 100}vw`;
+                particle.style.top = `${Math.random() * -20}vh`;
+
+                // Duración de animación aleatoria
+                const duration = Math.random() * 10 + 5;
+                particle.style.animationDuration = `${duration}s`;
+
+                // Retraso aleatorio
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+
+                particlesContainer.appendChild(particle);
+            }
+        });
+    </script>
+</body>
+</html>
+
